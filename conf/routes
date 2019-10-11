@@ -1,0 +1,6 @@
+GET    /                      Application.Index()
+
+GET    /api/todos             Todos.Index()
+
+# Catch all
+*      /:controller/:action   :controller.:action
