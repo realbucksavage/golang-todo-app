@@ -2,6 +2,7 @@ GET    /                      Application.Index()
 
 GET    /api/todos             Todos.GetAll()
 POST   /api/todos             Todos.Create()
+PUT    /api/todos/:id         Todos.Update()  
 GET    /api/todos/:id         Todos.GetById()
 DELETE /api/todos/:id         Todos.Delete()
 

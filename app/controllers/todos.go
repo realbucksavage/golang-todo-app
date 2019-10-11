@@ -34,6 +34,26 @@ func (c Todos) Create() revel.Result {
 	}
 }
 
+func (c Todos) Update(id int) revel.Result {
+	if todoItem, err := c.parseTodo(); err != nil {
+		return c.RenderError(err)
+	} else {
+		todoItem.Validate(c.Validation)
+
+		if c.Validation.HasErrors() {
+			return c.RenderText("Invalid todo")
+		}
+
+		err := todos.ModifyTodo(id, todoItem)
+
+		if err != nil {
+			return c.NotFound("Todo with ID %d", id)
+		}
+
+		return c.RenderText("Updated")
+	}
+}
+
 func (c Todos) GetById(id int) revel.Result {
 	todo, err := todos.GetTodoById(id)
 

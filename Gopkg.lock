@@ -42,17 +42,6 @@
   version = "v2.11.20"
 
 [[projects]]
-  digest = "1:03f397c3cdb0859402a297ea3c845317c84cc45b8266abd7fe29a32298555577"
-  name = "github.com/revel/modules"
-  packages = [
-    "static/app/controllers",
-    "static/app/model",
-  ]
-  pruneopts = "UT"
-  revision = "a50f5f138880b68aef235a7c1f3f09ba56b71d45"
-  version = "v0.21.0"
-
-[[projects]]
   branch = "master"
   digest = "1:a0812e773563f2e41afebf582088a86b0f01eb5bd794c19ecc1bce25820b1fa2"
   name = "github.com/revel/pathtree"
@@ -198,7 +187,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/revel/modules/static/app/controllers",
     "github.com/revel/revel",
     "github.com/revel/revel/testing",
     "gitlab.com/golang-commonmark/markdown",

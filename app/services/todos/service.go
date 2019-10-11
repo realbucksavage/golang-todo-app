@@ -43,6 +43,18 @@ func DeleteTodo(id int) {
 	}
 }
 
+func ModifyTodo(id int, newTodo models.Todo) error {
+	for i, todo := range allTodos {
+		if todo.TodoId == id {
+			allTodos[i].Title = newTodo.Title
+			allTodos[i].Completed = newTodo.Completed
+			return nil
+		}
+	}
+
+	return errors.New("Todo not found")
+}
+
 func CreateTodo(newTodo models.Todo) models.Todo {
 
 	lastTodo := allTodos[len(allTodos)-1]
