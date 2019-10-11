@@ -1,34 +1,63 @@
 package controllers
 
 import (
-	"github.com/realbucksavage/golang-todos-app/app/models"
+	"encoding/json"
+
 	"github.com/revel/revel"
 
-	"fmt"
+	"github.com/realbucksavage/golang-todos-app/app/models"
+	"github.com/realbucksavage/golang-todos-app/app/services/todos"
 )
-
-var allTodos []models.Todo = getSampleTodos()
 
 type Todos struct {
 	*revel.Controller
 }
 
-func (c Todos) Index() revel.Result {
+func (c Todos) GetAll() revel.Result {
+	allTodos := todos.GetAllTodos()
 	return c.RenderJSON(allTodos)
 }
 
-func getSampleTodos() []models.Todo {
+func (c Todos) Create() revel.Result {
+	if todoItem, err := c.parseTodo(); err != nil {
+		return c.RenderError(err)
+	} else {
+		todoItem.Validate(c.Validation)
 
-	todos := []models.Todo{}
+		if c.Validation.HasErrors() {
+			return c.RenderText("Invalid todo")
+		}
 
-	for i := 0; i < 25; i++ {
-		t := models.Todo{}
-		t.TodoId = i
-		t.Title = fmt.Sprintf("Test Title %d", i)
-		t.Completed = i%3 == 0
+		todoItem := todos.CreateTodo(todoItem)
 
-		todos = append(todos, t)
+		return c.RenderJSON(todoItem)
+	}
+}
+
+func (c Todos) GetById(id int) revel.Result {
+	todo, err := todos.GetTodoById(id)
+
+	if err != nil {
+		return c.NotFound("For ID %d", id)
 	}
 
-	return todos
+	return c.RenderJSON(todo)
+}
+
+func (c Todos) Delete(id int) revel.Result {
+	_, err := todos.GetTodoById(id)
+
+	if err != nil {
+		return c.NotFound("For ID %d", id)
+	}
+
+	todos.DeleteTodo(id)
+
+	return nil
+}
+
+func (c Todos) parseTodo() (models.Todo, error) {
+	todoItem := models.Todo{}
+	err := json.Unmarshal(c.Params.JSON, &todoItem)
+	return todoItem, err
 }

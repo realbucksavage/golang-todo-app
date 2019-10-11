@@ -1,0 +1,2 @@
+INFO  2019/10/11 18:24:28    app    main.go:23: app.conf: No mode found: dev              section=system
+INFO  2019/10/11 18:24:55    app    main.go:23: app.conf: No mode found: dev             section=system 
