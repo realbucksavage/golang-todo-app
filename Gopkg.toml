@@ -25,18 +25,10 @@
 #   unused-packages = true
 
 
-[[constraint]]
-  name = "github.com/revel/modules"
-  version = "0.21.0"
-
-[[constraint]]
-  name = "github.com/revel/revel"
-  version = "0.21.0"
-
-[[constraint]]
-  branch = "master"
-  name = "gitlab.com/golang-commonmark/markdown"
-
 [prune]
   go-tests = true
   unused-packages = true
+
+[[constraint]]
+  name = "github.com/gin-gonic/gin"
+  version = "1.4.0"
