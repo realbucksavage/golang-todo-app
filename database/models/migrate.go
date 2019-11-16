@@ -5,7 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// Run migrations on the database.
+// RunMigrations on the database.
 func RunMigrations(db *gorm.DB) {
 	db.AutoMigrate(&Todo{})
 

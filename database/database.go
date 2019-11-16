@@ -3,11 +3,13 @@ package database
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/realbucksavage/todos/database/models"
 	"github.com/realbucksavage/todos/lib"
 	"strconv"
 	"time"
+
+	// Import the postgres dialect.
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // InitDb connects to our postgres database. This function also runs migrations after a successful connection.
@@ -44,5 +46,5 @@ func openConnection() *gorm.DB {
 		return db
 	}
 
-	panic(fmt.Errorf("Cannot open database connection after %d retries!\n", maxRetries))
+	panic(fmt.Errorf("database: gave up after %d retries", maxRetries))
 }

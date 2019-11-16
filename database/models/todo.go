@@ -5,7 +5,7 @@ import (
 	"github.com/realbucksavage/todos/lib/common"
 )
 
-// Struct representation of Todo
+// Todo represents a `todo` row in the database
 type Todo struct {
 	gorm.Model
 
