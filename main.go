@@ -6,8 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/realbucksavage/todos/api"
-	"github.com/realbucksavage/todos/database"
+	"github.com/realbucksavage/golang-todo-app/api"
+	"github.com/realbucksavage/golang-todo-app/database"
 )
 
 func main() {

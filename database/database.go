@@ -7,8 +7,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
-	"github.com/realbucksavage/todos/database/models"
-	"github.com/realbucksavage/todos/lib"
+	"github.com/realbucksavage/golang-todo-app/database/models"
+	"github.com/realbucksavage/golang-todo-app/lib"
 
 	// Import the postgres dialect.
 	_ "github.com/jinzhu/gorm/dialects/postgres"

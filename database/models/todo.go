@@ -2,7 +2,8 @@ package models
 
 import (
 	"github.com/jinzhu/gorm"
-	"github.com/realbucksavage/todos/lib/common"
+
+	"github.com/realbucksavage/golang-todo-app/lib/common"
 )
 
 // Todo represents a `todo` row in the database
