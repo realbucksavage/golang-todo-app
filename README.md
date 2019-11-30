@@ -1,4 +1,8 @@
-# Todos App
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a7c64154be87401a9b35a1a51bf48a9d)](https://www.codacy.com/manual/jgodara/golang-todo-app?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=realbucksavage/golang-todo-app&amp;utm_campaign=Badge_Grade)
+
+# Simple todo API
+
+The GitHub repo for my [blog series](https://www.sarvika.com/2019/11/21/build-scalable-web-application-in-go/) "Building a scalable web application in Go"
 
 ## Downloading and running
 
@@ -13,7 +17,7 @@ $ docker-compose up
 
 ## APIs
 
-#### `GET` **/api/todos/** : List all todo items
+### `GET /api/todos/` : List all todo items
 
 ```shell
 $ curl --silent localhost:8080/api/todos/ | jq .
@@ -29,7 +33,7 @@ $ curl --silent localhost:8080/api/todos/ | jq .
 ]
 ```
 
-#### `GET` **/api/todos/:id** : List single todo item
+### `GET /api/todos/:id`: List single todo item
 
 ```shell
 $ curl --silent localhost:8080/api/todos/1 | jq .
@@ -43,7 +47,7 @@ $ curl --silent localhost:8080/api/todos/1 | jq .
 }
 ```
 
-#### `POST` **/api/todos/** : Create todo item
+### `POST /api/todos/` : Create todo item
 
 ```shell
 $ curl --silent -X POST localhost:8080/api/todos/ -d '{"title": "Todo #1"}'  | jq .
@@ -57,7 +61,7 @@ $ curl --silent -X POST localhost:8080/api/todos/ -d '{"title": "Todo #1"}'  | j
 }
 ```
 
-#### `PATCH` **/api/todos/:id** : Update a single todo item
+### `PATCH /api/todos/:id` : Update a single todo item
 
 ```shell
 $ curl --silent -X PATCH localhost:8080/api/todos/1 -d '{"completed": true}'  | jq .
@@ -84,7 +88,7 @@ $ curl --silent -X PATCH localhost:8080/api/todos/2 -d '{"title": "Changed title
 }
 ```
 
-#### `DELETE` **/api/todos/:id** : Delete single todo item
+### `DELETE /api/todos/:id` : Delete single todo item
 
 ```shell
 $ curl --silent -X DELETE localhost:8080/api/todos/1  | jq .
