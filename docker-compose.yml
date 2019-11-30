@@ -5,6 +5,8 @@ services:
     container_name: todosdb
     hostname: db
     image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: tduser
       POSTGRES_PASSWORD: tdpass
@@ -20,3 +22,8 @@ services:
       - 8080:8080
     depends_on:
       - db
+    environment:
+      GIN_MODE: release
+
+volumes:
+  postgres_data:

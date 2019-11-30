@@ -1,11 +1,18 @@
-FROM golang:1.13-alpine
-EXPOSE 8080
+# Build stage
+FROM golang:1.13-alpine AS build
 
 ENV GOPATH=/go
-RUN mkdir -p $GOPATH/src/github.com/realbucksavage/todos
-COPY . $GOPATH/src/github.com/realbucksavage/todos
+ENV APPNAME=github.com/realbucksavage/todos
+RUN mkdir -p $GOPATH/src/$APPNAME
+COPY . $GOPATH/src/$APPNAME
 
-WORKDIR $GOPATH/src/github.com/realbucksavage/todos
+WORKDIR $GOPATH/src/$APPNAME
 RUN go build -o todos .
 
-CMD ["/go/src/github.com/realbucksavage/todos/todos"]
+# Deployment Stage
+FROM alpine:3.7
+EXPOSE 8080
+
+WORKDIR /app
+COPY --from=build /go/src/github.com/realbucksavage/todos/todos /app/
+ENTRYPOINT ./todos
