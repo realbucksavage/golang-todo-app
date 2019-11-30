@@ -1,8 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
+
 	"github.com/realbucksavage/todos/api"
 	"github.com/realbucksavage/todos/database"
 )
@@ -21,7 +24,13 @@ func main() {
 	// Gopher talk on code organization - https://www.youtube.com/watch?v=oL6JBUk6tj0
 	api.ApplyRoutes(r)
 
-	if err := r.Run(":8080"); err != nil {
-		fmt.Printf("Cannot start server: %v\n", err)
-	}
+	// Handle missing routes.
+	r.NoRoute(func(c *gin.Context) {
+		c.JSON(http.StatusNotFound, gin.H{
+			"code":     "RESOURCE_NOT_FOUND",
+			"resource": c.Request.RequestURI,
+		})
+	})
+
+	log.Fatal(r.Run(":8080"))
 }

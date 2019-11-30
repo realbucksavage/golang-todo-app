@@ -2,11 +2,13 @@ package database
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
-	"github.com/realbucksavage/todos/database/models"
-	"github.com/realbucksavage/todos/lib"
 	"strconv"
 	"time"
+
+	"github.com/jinzhu/gorm"
+
+	"github.com/realbucksavage/todos/database/models"
+	"github.com/realbucksavage/todos/lib"
 
 	// Import the postgres dialect.
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -15,8 +17,6 @@ import (
 // InitDb connects to our postgres database. This function also runs migrations after a successful connection.
 func InitDb() *gorm.DB {
 	db := openConnection()
-
-	db.LogMode(true)
 
 	models.RunMigrations(db)
 	return db

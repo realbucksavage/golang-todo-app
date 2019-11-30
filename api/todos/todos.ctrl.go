@@ -1,12 +1,13 @@
 package todos
 
 import (
-	"fmt"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+
 	"github.com/realbucksavage/todos/database/models"
 	"github.com/realbucksavage/todos/lib/common"
-	"net/http"
 )
 
 // Alias to Todo
@@ -20,8 +21,7 @@ func list(c *gin.Context) {
 
 	var todos []Todo
 	if err := db.Order("id desc").Find(&todos).Error; err != nil {
-		fmt.Printf("Cannot list: %v\n", err)
-		c.AbortWithStatus(http.StatusInternalServerError)
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 
@@ -51,21 +51,23 @@ func get(c *gin.Context) {
 func create(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	type requestBody struct {
+	type RequestBody struct {
 		Title     string `json:"title" binding:"required"`
 		Completed bool   `json:"completed"`
 	}
-	var r requestBody
+	var r RequestBody
 
 	if err := c.BindJSON(&r); err != nil {
-		fmt.Printf("Cannot bind JSON: %v\n", err.Error())
-		c.AbortWithStatus(http.StatusBadRequest)
+		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
 	todo := Todo{Title: r.Title, Completed: r.Completed}
-	db.NewRecord(todo)
-	db.Create(&todo)
+
+	if err := db.Create(&todo).Error; err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
 
 	c.JSON(http.StatusCreated, todo.Serialize())
 }
@@ -74,13 +76,12 @@ func update(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	id := c.Param("id")
 
-	type requestBody struct {
+	type RequestBody struct {
 		Title     string `json:"title"`
 		Completed bool   `json:"completed"`
 	}
-	var r requestBody
+	var r RequestBody
 	if err := c.BindJSON(&r); err != nil {
-		fmt.Printf("Cannot bind JSON: %v\n", err.Error())
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
@@ -96,7 +97,11 @@ func update(c *gin.Context) {
 		t.Title = r.Title
 	}
 
-	db.Save(&t)
+	if err := db.Save(&t).Error; err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
 	c.JSON(http.StatusOK, t.Serialize())
 }
 
@@ -110,6 +115,10 @@ func remove(c *gin.Context) {
 		return
 	}
 
-	db.Delete(&t)
+	if err := db.Delete(&t).Error; err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
 	c.Status(http.StatusNoContent)
 }
