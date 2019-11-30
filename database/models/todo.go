@@ -18,7 +18,7 @@ type Todo struct {
 func (t *Todo) Serialize() common.JSON {
 	return common.JSON{
 		"id":        t.ID,
-		"content":   t.Title,
+		"title":     t.Title,
 		"completed": t.Completed,
 	}
 }
